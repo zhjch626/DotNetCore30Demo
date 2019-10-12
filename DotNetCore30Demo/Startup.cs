@@ -107,8 +107,6 @@ namespace DotNetCore30Demo
             #endregion
 
             #region Swagger
-
-
             services.AddSwagger(ApiName);
 
             #endregion
@@ -167,8 +165,6 @@ namespace DotNetCore30Demo
             //Ç¿ÖÆÖ´ÐÐHttps
             app.UseHttpsRedirection();
 
-
-
             app.UseRouting();
 
             app.UseAuthorization();
@@ -177,9 +173,6 @@ namespace DotNetCore30Demo
             {
                 endpoints.MapControllers();
             });
-
-            
-
 
         }
     }

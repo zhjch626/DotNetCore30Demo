@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DotNetCore30Demo</name>
+    </assembly>
+    <members>
+        <member name="M:DotNetCore30Demo.Utility.AutoFacModuleRegister.Load(Autofac.ContainerBuilder)">
+            <summary>
+            重新AutoFac管道Load方法，在这里注册注入
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="M:DotNetCore30Demo.Utility.AutoFacModuleRegister.GetAssemblyByName(System.String)">
+            <summary>
+            根据程序集名称获取程序集
+            </summary>
+            <param name="assemblyName"></param>
+            <returns></returns>
+        </member>
+        <member name="F:DotNetCore30Demo.Utility.ConfigurationManager._locker">
+            <summary>
+            Lock to prevent concurrent operations
+            </summary>
+        </member>
+        <member name="F:DotNetCore30Demo.Utility.ConfigurationManager._instance">
+            <summary>
+            The configuration instance
+            </summary>
+        </member>
+        <member name="P:DotNetCore30Demo.Utility.ConfigurationManager.Config">
+            <summary>
+            The configuration root
+            </summary>
+        </member>
+        <member name="M:DotNetCore30Demo.Utility.ConfigurationManager.#ctor">
+            <summary>
+            Private ctor
+            </summary>
+        </member>
+        <member name="M:DotNetCore30Demo.Utility.ConfigurationManager.GetInstance">
+            <summary>
+            Get configuration instance
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DotNetCore30Demo.Utility.ConfigurationManager.GetConfig(System.String)">
+            <summary>
+            Get the value of the configuration section
+            </summary>
+            <param name="name">The configuration section's name</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

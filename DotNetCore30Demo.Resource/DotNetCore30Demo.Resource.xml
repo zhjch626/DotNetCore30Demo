@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DotNetCore30Demo.Resource</name>
+    </assembly>
+    <members>
+        <member name="P:DotNetCore30Demo.Resource.SchoolResource.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:DotNetCore30Demo.Resource.SchoolResource.Name">
+            <summary>
+            学校名称
+            </summary>
+        </member>
+    </members>
+</doc>

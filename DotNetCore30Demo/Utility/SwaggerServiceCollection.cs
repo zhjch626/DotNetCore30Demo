@@ -46,8 +46,8 @@ namespace DotNetCore30Demo.Utility
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 options.IncludeXmlComments(xmlPath,true);//默认的第二个参数是false，这个是controller的注释，记得修改
 
-                //var xmlModelPath = Path.Combine(basePath, "DotNetCore30Demo.Entity.xml");//这个就是Model层的xml文件名
-                //options.IncludeXmlComments(xmlModelPath);
+                var xmlModelPath = Path.Combine(basePath, "DotNetCore30Demo.Resource.xml");//这个就是Model层的xml文件名
+                options.IncludeXmlComments(xmlModelPath);
 
 
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()

@@ -12,6 +12,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DotNetCore30Demo.Controllers
 {
+    /// <summary>
+    /// 校管理
+    /// </summary>
     [ApiController]
     [Route("[controller]/[action]")]
     public class SchoolController : ControllerBase
@@ -27,6 +30,7 @@ namespace DotNetCore30Demo.Controllers
             _mapper = mapper;
         }
         [HttpGet]
+        [ApiExplorerSettings(IgnoreApi = true)]//swagger隐藏接口
         public async Task<ActionResult<bool>> Get(string id)
         {
             try

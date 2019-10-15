@@ -5,11 +5,15 @@ using DotNetCore30Demo.Model;
 using DotNetCore30Demo.Repository;
 using DotNetCore30Demo.Resource;
 using DotNetCore30Demo.Utility;
+using DotNetCore30Demo.Utility.Helper;
+using DotNetCore30Demo.Utility.MemoryCache;
+using DotNetCore30Demo.Utility.Redis;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -18,12 +22,15 @@ namespace DotNetCore30Demo
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostEnvironment hostEnvironment)
         {
             Configuration = configuration;
+            HostEnvironment = hostEnvironment;
         }
 
         public IConfiguration Configuration { get; }
+
+        public IHostEnvironment HostEnvironment { get; }
 
         private const string DefaultCorsPolicyName = "Demo.Cors";
 
@@ -33,10 +40,22 @@ namespace DotNetCore30Demo
         public void ConfigureServices(IServiceCollection services)
         {
 
+            #region 部分服务注入-netcore自带方法
+            // 缓存注入
+            services.AddScoped<IMemoryCaching, MemoryCaching>();
+            services.AddSingleton<IMemoryCache>(factory =>
+            {
+                var cache = new MemoryCache(new MemoryCacheOptions());
+                return cache;
+            });
+            // Redis注入
+            services.AddSingleton<IRedisCacheManager, RedisCacheManager>();
+            #endregion
+
             #region CORS
 
             //配置跨域处理
-            var urls = Configuration["AppConfig:Cores"].Split(',');
+            var urls = Configuration["AppSettings:Cores"].Split(',');
             //跨域第二种方法，声明策略，记得下边app中配置
             services.AddCors(c =>
             {
@@ -101,6 +120,8 @@ namespace DotNetCore30Demo
                     new ValidationFailedResult(actionContext.ModelState);
             });
             #endregion
+
+            services.AddSingleton(new AppSettings(HostEnvironment.ContentRootPath));
 
             #region DB
             services.AddChimp<ChimpDbContext>(opt => opt.UseSqlServer(Configuration["ConnectionStrings:MsSqlConnectionString"]));

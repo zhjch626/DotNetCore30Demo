@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DotNetCore30Demo.IRepository\DotNetCore30Demo.IRepository.csproj" />
+    <ProjectReference Include="..\DotNetCore30Demo.Utility\DotNetCore30Demo.Utility.csproj" />
   </ItemGroup>
 
 </Project>

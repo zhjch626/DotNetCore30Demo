@@ -23,6 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DotNetCore30Demo.Repository\DotNetCore30Demo.Repository.csproj" />
     <ProjectReference Include="..\DotNetCore30Demo.Resource\DotNetCore30Demo.Resource.csproj" />
+    <ProjectReference Include="..\DotNetCore30Demo.Utility\DotNetCore30Demo.Utility.csproj" />
   </ItemGroup>
 
 </Project>

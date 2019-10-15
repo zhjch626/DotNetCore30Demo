@@ -5,6 +5,7 @@ using DotNetCore30Demo.Entity;
 using DotNetCore30Demo.IRepository;
 using DotNetCore30Demo.DataAccess;
 using DotNetCore30Demo.Resource;
+using DotNetCore30Demo.Utility.Attribute;
 using Microsoft.EntityFrameworkCore;
 
 namespace DotNetCore30Demo.Repository
@@ -18,7 +19,7 @@ namespace DotNetCore30Demo.Repository
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-
+        [Caching(AbsoluteExpiration = 60)]
         public async Task<IEnumerable<SchoolResource>> GetAll()
         {
             var a= await _unitOfWork.QueryAsync<School>("select * from school ");

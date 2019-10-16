@@ -26,7 +26,7 @@ namespace DotNetCore30Demo
                 })
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureLogging(logging => { logging.ClearProviders();
-                    logging.SetMinimumLevel(LogLevel.Trace);
+                    logging.SetMinimumLevel(LogLevel.Information);
                 }).UseNLog();
     }
 }

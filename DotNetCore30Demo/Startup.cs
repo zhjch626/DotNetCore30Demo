@@ -1,6 +1,7 @@
 using System.Linq;
 using Autofac;
 using DotNetCore30Demo.DataAccess;
+using DotNetCore30Demo.IRepository;
 using DotNetCore30Demo.Model;
 using DotNetCore30Demo.Repository;
 using DotNetCore30Demo.Resource;
@@ -9,6 +10,7 @@ using DotNetCore30Demo.Utility.Helper;
 using DotNetCore30Demo.Utility.MemoryCache;
 using DotNetCore30Demo.Utility.Redis;
 using FluentValidation.AspNetCore;
+using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -131,6 +133,13 @@ namespace DotNetCore30Demo
             services.AddSwagger(ApiName);
 
             #endregion
+
+            #region 注入Hangfile
+
+            services.AddHangFile(Configuration);
+
+            #endregion
+
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -153,6 +162,8 @@ namespace DotNetCore30Demo
             {
                 app.UseDeveloperExceptionPage();
             }
+
+
             #region Swagger
 
             app.UseSwagger();
@@ -189,6 +200,21 @@ namespace DotNetCore30Demo
             app.UseRouting();
 
             app.UseAuthorization();
+
+            #region Hangfire
+
+            var enabled = Configuration["AppSettings:HangFire:Enabled"];
+            if (!string.IsNullOrWhiteSpace(enabled) && bool.Parse(enabled))
+            {
+                app.UseHangfireServer();
+
+                //1分钟执行一次
+                //RecurringJob.AddOrUpdate<ISchoolRepository>(x => x.GetAll(), Cron.Minutely);
+            }
+
+
+
+            #endregion
 
             app.UseEndpoints(endpoints =>
             {

@@ -23,41 +23,24 @@ namespace DotNetCore30Demo.Controllers
         private readonly IUnitOfWork _unitOfWork;
 
         private readonly IMapper _mapper;
-        public SchoolController(ISchoolRepository schoolRepository, IUnitOfWork unitOfWork,IMapper mapper)
+        public SchoolController(ISchoolRepository schoolRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _schoolRepository = schoolRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
+        /// <summary>
+        /// 根据Id查询
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
-        [ApiExplorerSettings(IgnoreApi = true)]//swagger隐藏接口
-        public async Task<ActionResult<bool>> Get(string id)
+        //[ApiExplorerSettings(IgnoreApi = true)]//swagger隐藏接口
+        public async Task<ActionResult<SchoolResource>> GetById(string id)
         {
-            await _schoolRepository.InsertAsync(new List<School>()
-            {
-                new School()
-                {
-                    Id = new Guid(),
-                    Name = "测试学校1"
-                },
-                new School()
-                {
-                    Id = new Guid(),
-                    Name = "测试学校2"
-                },
-                new School()
-                {
-                    Id = new Guid(),
-                    Name = "测试学校3"
-                },
-                new School()
-                {
-                    Id = new Guid(),
-                    Name = "测试学校4"
-                }
-            });
-            return await _unitOfWork.SaveChangesAsync() > 0;
+            var result = await _schoolRepository.GetByIdAsync(id);
 
+            return _mapper.Map<School, SchoolResource>(result);
         }
         /// <summary>
         /// 新增
@@ -65,7 +48,7 @@ namespace DotNetCore30Demo.Controllers
         /// <param name="resource"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<bool>> Insert([FromBody]SchoolResource resource)
+        public async Task<ActionResult<bool>> Add([FromBody]SchoolAddResource resource)
         {
             await _schoolRepository.InsertAsync(new School()
             {
@@ -74,6 +57,19 @@ namespace DotNetCore30Demo.Controllers
             });
             return await _unitOfWork.SaveChangesAsync() > 0;
         }
+
+        /// <summary>
+        /// 修改
+        /// </summary>
+        /// <param name="resource"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult<bool> Update([FromBody]SchoolUpdateResource resource)
+        {
+            _schoolRepository.Update(_mapper.Map<SchoolUpdateResource, School>(resource));
+            return _unitOfWork.SaveChanges() > 0;
+        }
+
         /// <summary>
         /// 获取全部数据
         /// </summary>
@@ -94,7 +90,7 @@ namespace DotNetCore30Demo.Controllers
             };
             //对象转为json 字符串
             //测试.net 3.0 内置的json
-            string json = JsonSerializer.Serialize(list,options);
+            string json = JsonSerializer.Serialize(list, options);
 
             var result = JsonSerializer.Deserialize<IList<SchoolResource>>(json);
 

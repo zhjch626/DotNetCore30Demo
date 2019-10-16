@@ -2,7 +2,7 @@
 
 namespace DotNetCore30Demo.Resource.Validators
 {
-    public class SchoolAddAndUpdateValidator<T> : AbstractValidator<T> where T : SchoolResource
+    public class SchoolAddAndUpdateValidator<T> : AbstractValidator<T> where T : SchoolAddOrUpdateResource
     {
         public SchoolAddAndUpdateValidator()
         {

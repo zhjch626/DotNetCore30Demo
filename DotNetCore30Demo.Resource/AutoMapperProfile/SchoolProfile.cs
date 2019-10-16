@@ -8,6 +8,7 @@ namespace DotNetCore30Demo.Resource.AutoMapperProfile
         public SchoolProfile()
         {
             CreateMap<School, SchoolResource>();
+            CreateMap<SchoolUpdateResource, School>();
         }
 
     }

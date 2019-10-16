@@ -33,37 +33,30 @@ namespace DotNetCore30Demo.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]//swagger隐藏接口
         public async Task<ActionResult<bool>> Get(string id)
         {
-            try
+            await _schoolRepository.InsertAsync(new List<School>()
             {
-                await _schoolRepository.InsertAsync(new List<School>()
+                new School()
                 {
-                    new School()
-                    {
-                        Id = new Guid(),
-                        Name = "测试学校1"
-                    },
-                    new School()
-                    {
-                        Id = new Guid(),
-                        Name = "测试学校2"
-                    },
-                    new School()
-                    {
-                        Id = new Guid(),
-                        Name = "测试学校3"
-                    },
-                    new School()
-                    {
-                        Id = new Guid(),
-                        Name = "测试学校4"
-                    }
-                });
-                return await _unitOfWork.SaveChangesAsync() > 0;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
+                    Id = new Guid(),
+                    Name = "测试学校1"
+                },
+                new School()
+                {
+                    Id = new Guid(),
+                    Name = "测试学校2"
+                },
+                new School()
+                {
+                    Id = new Guid(),
+                    Name = "测试学校3"
+                },
+                new School()
+                {
+                    Id = new Guid(),
+                    Name = "测试学校4"
+                }
+            });
+            return await _unitOfWork.SaveChangesAsync() > 0;
 
         }
         /// <summary>
@@ -100,6 +93,7 @@ namespace DotNetCore30Demo.Controllers
                 //PropertyNamingPolicy = JsonNamingPolicy.CamelCase     //命名方式是默认还是CamelCase
             };
             //对象转为json 字符串
+            //测试.net 3.0 内置的json
             string json = JsonSerializer.Serialize(list,options);
 
             var result = JsonSerializer.Deserialize<IList<SchoolResource>>(json);

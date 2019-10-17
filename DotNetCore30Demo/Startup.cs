@@ -144,7 +144,7 @@ namespace DotNetCore30Demo
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            //添加依赖注入关系
+            //添加依赖注入关系（Autofac）
             builder.RegisterModule<AutoFacModuleRegister>();
 
             var controllerBaseType = typeof(ControllerBase);

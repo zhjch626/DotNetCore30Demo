@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -8,6 +9,7 @@ using DotNetCore30Demo.DataAccess;
 using DotNetCore30Demo.Entity;
 using DotNetCore30Demo.IRepository;
 using DotNetCore30Demo.Resource;
+using DotNetCore30Demo.Utility.Helper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DotNetCore30Demo.Controllers
@@ -77,6 +79,8 @@ namespace DotNetCore30Demo.Controllers
         [HttpGet]
         public async Task<IEnumerable<SchoolResource>> GetSchoolAll()
         {
+            
+
             var list = await _schoolRepository.GetAll();
 
             JsonSerializerOptions options = new JsonSerializerOptions()
@@ -94,8 +98,24 @@ namespace DotNetCore30Demo.Controllers
 
             var result = JsonSerializer.Deserialize<IList<SchoolResource>>(json);
 
-            // var result= _mapper.Map<IList<School>,IList<SchoolResource>>(list.ToList());
+            //var result= _mapper.Map<IList<School>,IList<SchoolResource>>(list.ToList());
             return list;
         }
+
+        /// <summary>
+        /// 测试Aes解密解密
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult<string> TesAes(string str)
+        {
+            string purpose = "这个算法是用来搞SSO的";
+            // 返回：AcfCe3AQcmNkeNThv-u09H_HyGKy_iRy-7uGiW0IZOHI
+            var aseString = AesHelper.Encrypt("密码here", purpose, Encoding.UTF8.GetBytes(str));
+            // 返回：Hello World
+            return Encoding.UTF8.GetString(AesHelper.Decrypt(aseString, "密码here", purpose));
+        }
+
     }
 }

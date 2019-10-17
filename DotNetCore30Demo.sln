@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetCore30Demo.DataAccess
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetCore30Demo.Resource", "DotNetCore30Demo.Resource\DotNetCore30Demo.Resource.csproj", "{E817F714-EDC8-4507-BC4F-C655D6A18E40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetCore30Demo.Utility", "DotNetCore30Demo.Utility\DotNetCore30Demo.Utility.csproj", "{15779932-63A2-4B36-8D7F-790153048D62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetCore30Demo.Utility", "DotNetCore30Demo.Utility\DotNetCore30Demo.Utility.csproj", "{15779932-63A2-4B36-8D7F-790153048D62}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

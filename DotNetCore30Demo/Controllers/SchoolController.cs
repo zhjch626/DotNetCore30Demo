@@ -10,6 +10,7 @@ using DotNetCore30Demo.Entity;
 using DotNetCore30Demo.IRepository;
 using DotNetCore30Demo.Resource;
 using DotNetCore30Demo.Utility.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DotNetCore30Demo.Controllers
@@ -25,12 +26,9 @@ namespace DotNetCore30Demo.Controllers
         private readonly IUnitOfWork _unitOfWork;
 
         private readonly IMapper _mapper;
-        public SchoolController(ISchoolRepository schoolRepository, IUnitOfWork unitOfWork, IMapper mapper)
-        {
-            _schoolRepository = schoolRepository;
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
-        }
+
+        public SchoolController(ISchoolRepository schoolRepository, IUnitOfWork unitOfWork, IMapper mapper) => (_schoolRepository, _unitOfWork, _mapper) = (schoolRepository, unitOfWork, mapper);
+
         /// <summary>
         /// 根据Id查询
         /// </summary>
@@ -44,6 +42,7 @@ namespace DotNetCore30Demo.Controllers
 
             return _mapper.Map<School, SchoolResource>(result);
         }
+
         /// <summary>
         /// 新增
         /// </summary>
@@ -77,10 +76,9 @@ namespace DotNetCore30Demo.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Authorize]
         public async Task<IEnumerable<SchoolResource>> GetSchoolAll()
         {
-            
-
             var list = await _schoolRepository.GetAll();
 
             JsonSerializerOptions options = new JsonSerializerOptions()
@@ -103,7 +101,7 @@ namespace DotNetCore30Demo.Controllers
         }
 
         /// <summary>
-        /// 测试Aes解密解密
+        /// 测试Aes加密解密
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
@@ -113,9 +111,8 @@ namespace DotNetCore30Demo.Controllers
             string purpose = "这个算法是用来搞SSO的";
             // 返回：AcfCe3AQcmNkeNThv-u09H_HyGKy_iRy-7uGiW0IZOHI
             var aseString = AesHelper.Encrypt("密码here", purpose, Encoding.UTF8.GetBytes(str));
-            // 返回：Hello World
+            // 返回：str
             return Encoding.UTF8.GetString(AesHelper.Decrypt(aseString, "密码here", purpose));
         }
-
     }
 }

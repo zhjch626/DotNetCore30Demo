@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,5 +12,4 @@
     <ProjectReference Include="..\DotNetCore30Demo.IRepository\DotNetCore30Demo.IRepository.csproj" />
     <ProjectReference Include="..\DotNetCore30Demo.Utility\DotNetCore30Demo.Utility.csproj" />
   </ItemGroup>
-
 </Project>

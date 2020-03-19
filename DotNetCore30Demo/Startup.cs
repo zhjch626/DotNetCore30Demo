@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Reflection;
 using Autofac;
 using DotNetCore30Demo.DataAccess;
 using DotNetCore30Demo.IRepository;
@@ -9,6 +10,7 @@ using DotNetCore30Demo.Utility;
 using DotNetCore30Demo.Utility.Helper;
 using DotNetCore30Demo.Utility.MemoryCache;
 using DotNetCore30Demo.Utility.Redis;
+using EasyNetQ;
 using FluentValidation.AspNetCore;
 using Hangfire;
 using Microsoft.AspNetCore.Builder;
@@ -125,6 +127,21 @@ namespace DotNetCore30Demo
 
             services.AddSingleton(new AppSettings(HostEnvironment.ContentRootPath));
 
+            services.AddAuthentication("Bearer").AddIdentityServerAuthentication(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.Authority = "http://localhost:5000";
+                    options.ApiName = "clientservice";
+                });
+
+
+
+            #region IoC - EventBus
+
+            //services.AddSingleton(RabbitHutch.CreateBus("RabbitMQ:Dev"));
+
+            #endregion
+
             #region DB
             services.AddChimp<ChimpDbContext>(opt => opt.UseSqlServer(Configuration["ConnectionStrings:MsSqlConnectionString"]));
             #endregion
@@ -162,8 +179,7 @@ namespace DotNetCore30Demo
             {
                 app.UseDeveloperExceptionPage();
             }
-
-
+            
             #region Swagger
 
             app.UseSwagger();
@@ -195,7 +211,7 @@ namespace DotNetCore30Demo
             #endregion
 
             //Ç¿ÖÆÖ´ÐÐHttps
-            app.UseHttpsRedirection();
+           // app.UseHttpsRedirection();
 
             app.UseRouting();
 
@@ -216,11 +232,14 @@ namespace DotNetCore30Demo
 
             #endregion
 
+            app.UseAuthentication();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
-
+            // easyNetQ
+           // app.UseSubscribe("ClientMessageService", new[] { Assembly.GetExecutingAssembly() });
         }
     }
 }
